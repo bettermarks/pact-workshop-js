@@ -51,34 +51,6 @@ describe("API Pact test", () => {
         ]);
       });
     });
-
-    test("no products exists", async () => {
-      // set up Pact interactions
-      await provider.addInteraction({
-        states: [{ description: "no products exist" }],
-        uponReceiving: "get all products",
-        withRequest: {
-          method: "GET",
-          path: "/products",
-        },
-        willRespondWith: {
-          status: 200,
-          headers: {
-            "Content-Type": "application/json; charset=utf-8",
-          },
-          body: [],
-        },
-      });
-
-      await provider.executeTest(async (mockService) => {
-        const api = new API(mockService.url);
-
-        // make request to Pact mock server
-        const product = await api.getAllProducts();
-
-        expect(product).toStrictEqual([]);
-      });
-    });
   });
 
   describe("getting one product", () => {
